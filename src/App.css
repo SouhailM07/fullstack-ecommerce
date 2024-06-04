@@ -9,6 +9,9 @@
 html {
   @apply text-[20px];
 }
+.cc {
+  @apply max-w-[80rem] mx-auto;
+}
 /* custom */
 
 @layer base {
