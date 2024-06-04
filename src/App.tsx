@@ -1,10 +1,8 @@
 import "./style/input.css";
 import "./App.css";
+import MyContainer from "./components/MyContainer/MyContainer";
+
 function App() {
-  return (
-    <>
-      <div>sb</div>
-    </>
-  );
+  return <MyContainer />;
 }
 export default App;
