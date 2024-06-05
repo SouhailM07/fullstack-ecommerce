@@ -7,7 +7,7 @@
   transition: 0.3s;
 }
 html {
-  @apply text-[20px];
+  @apply text-[20px] !font-[Montserrat];
 }
 .cc {
   @apply max-w-[80rem] mx-auto;

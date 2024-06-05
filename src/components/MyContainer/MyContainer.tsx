@@ -1,14 +1,32 @@
 import "./mycontainer.css";
 // components
-import { Navbar, Hero, Categories } from "@/components";
+import {
+  Navbar,
+  Hero,
+  Categories,
+  FeaturedProducts,
+  Footer,
+} from "@/components";
+import { Routes, Route } from "react-router-dom";
+
 export default function MyContainer() {
   return (
-    <>
-      <Navbar />
-      <main className="mt-[4rem] space-y-[7rem]">
-        <Hero />
-        <Categories />
-      </main>
-    </>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <Navbar />
+            <main className="mt-[4rem] space-y-[7rem] mb-[7rem]">
+              <Hero />
+              <Categories />
+              <FeaturedProducts />
+            </main>
+            <Footer />
+          </>
+        }
+      />
+      <Route path="login" />
+    </Routes>
   );
 }

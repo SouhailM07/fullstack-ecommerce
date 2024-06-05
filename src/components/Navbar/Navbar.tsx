@@ -6,11 +6,10 @@ import {
   faStore,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { UserButton, useAuth } from "@clerk/clerk-react";
+
 export default function Navbar() {
-  let links = [
-    { icon: faCartShopping, title: "cart" },
-    { icon: faUser, title: "profile" },
-  ];
+  const { isSignedIn } = useAuth();
   return (
     <header className="py-[0.7rem] px-[2rem] max-w-[80rem] mx-auto">
       <nav className="flex justify-between items-center">
@@ -20,17 +19,26 @@ export default function Navbar() {
         </h1>
         <FontAwesomeIcon icon="coffee" />
         <SearchBar />
-        <ul role="list" className="flex gap-x-[3rem] ">
-          {links.map((e, i) => (
-            <button
-              key={i}
-              title={e.title}
-              role="listitem"
-              className="cursor-pointer hover:bg-gray-200 h-[3rem] aspect-square rounded-full"
-            >
-              <FontAwesomeIcon icon={e.icon} size="lg" />
-            </button>
-          ))}
+        <ul role="list" className="flex gap-x-[1rem] ">
+          <button
+            title="cart"
+            role="listitem"
+            className="cursor-pointer hover:bg-gray-200 h-[3rem] aspect-square rounded-full"
+          >
+            <FontAwesomeIcon icon={faCartShopping} size="lg" />
+          </button>
+          <button
+            title="profile"
+            role="listitem"
+            className="cursor-pointer hover:bg-gray-200 h-[3rem] aspect-square rounded-full"
+          >
+            {isSignedIn ? (
+              <UserButton />
+            ) : (
+              <FontAwesomeIcon icon={faUser} size="lg" />
+            )}
+          </button>
+          <UserButton />
         </ul>
       </nav>
     </header>

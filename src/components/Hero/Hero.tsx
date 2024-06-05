@@ -1,4 +1,7 @@
 import "./hero.css";
+
+import { motion } from "framer-motion";
+
 export default function Hero() {
   return (
     <section className="cc px-[1rem] grid grid-cols-2  gap-x-[1rem]">
@@ -27,7 +30,12 @@ export default function Hero() {
 }
 
 const MyBtn = ({ color, txt }: { color: string; txt: string }) => (
-  <button role="listitem" className={`${color} h-[3rem] w-[9rem] rounded-lg`}>
+  <motion.button
+    whileHover={{ scale: 1.1 }}
+    transition={{ duration: 0.1 }}
+    role="listitem"
+    className={`${color} h-[3rem] w-[9rem] rounded-lg`}
+  >
     {txt}
-  </button>
+  </motion.button>
 );
