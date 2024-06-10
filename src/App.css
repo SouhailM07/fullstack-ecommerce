@@ -3,15 +3,20 @@
 @tailwind utilities;
 
 /* custom */
-* {
+/* * {
   transition: 0.3s;
-}
+} */
 html {
   @apply text-[20px] !font-[Montserrat];
 }
 .cc {
   @apply max-w-[80rem] mx-auto;
 }
+
+.b {
+  @apply border-2 border-green-500;
+}
+
 /* custom */
 
 @layer base {

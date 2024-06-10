@@ -6,10 +6,13 @@ import {
   faStore,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { UserButton, useAuth } from "@clerk/clerk-react";
+import { UserButton, UserProfile, useAuth, useUser } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const { isSignedIn } = useAuth();
+  const { user } = useUser();
+  console.log(user?.id);
   return (
     <header className="py-[0.7rem] px-[2rem] max-w-[80rem] mx-auto">
       <nav className="flex justify-between items-center">
@@ -23,22 +26,23 @@ export default function Navbar() {
           <button
             title="cart"
             role="listitem"
-            className="cursor-pointer hover:bg-gray-200 h-[3rem] aspect-square rounded-full"
+            className="cursor-pointer hover:bg-gray-200 grid place-items-center h-[3rem] aspect-square rounded-full"
           >
             <FontAwesomeIcon icon={faCartShopping} size="lg" />
           </button>
           <button
             title="profile"
             role="listitem"
-            className="cursor-pointer hover:bg-gray-200 h-[3rem] aspect-square rounded-full"
+            className="cursor-pointer hover:bg-gray-200 grid place-items-center h-[3rem] aspect-square rounded-full"
           >
             {isSignedIn ? (
               <UserButton />
             ) : (
-              <FontAwesomeIcon icon={faUser} size="lg" />
+              <Link to="login">
+                <FontAwesomeIcon icon={faUser} size="lg" />
+              </Link>
             )}
           </button>
-          <UserButton />
         </ul>
       </nav>
     </header>
