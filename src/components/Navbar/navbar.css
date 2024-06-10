@@ -1,5 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@layer components {
+
+.navBtn {
+  @apply cursor-pointer hover:bg-gray-200 grid place-items-center rounded-full;
+  @apply h-[3rem] aspect-square max-sm:h-[2rem] max-sm:text-[1rem] text-[1.2rem];
 }
