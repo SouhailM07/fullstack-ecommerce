@@ -14,7 +14,7 @@ export default function MyContainer() {
       <Navbar />
       <main className="mt-[4rem] space-y-[7rem] mb-[7rem]">
         {/* <Hero /> */}
-        {/* <Categories /> */}
+        <Categories />
         {/* <FeaturedProducts /> */}
       </main>
       <Footer />

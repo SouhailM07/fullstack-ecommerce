@@ -11,8 +11,8 @@ export default function Categories() {
     "Beauty",
   ];
   return (
-    <section className="bg-gray-100 px-[1rem] h-[20rem] flex items-center">
-      <ul className="grid grid-cols-5 gap-x-[1rem] mx-auto">
+    <section className="bg-gray-100 px-[1rem] min-h-[20rem] flex items-center">
+      <ul className="max-sm:flex-col flex justify-center flex-wrap gap-[1rem] mx-auto w-full max-sm:items-center">
         {categories.map((e, i) => (
           <Category key={i} txt={e} />
         ))}
@@ -25,7 +25,7 @@ const Category = ({ txt }: { txt: string }) => (
   <motion.button
     whileHover={{ y: -15 }}
     transition={{ ease: "anticipate" }}
-    className="bg-gray-300 shadow-xl h-[8rem] font-bold rounded-lg w-[12rem] "
+    className="bg-gray-300 shadow-xl max-sm:h-[3rem] h-[8rem] font-bold rounded-lg max-sm:w-[90%] w-[12rem] "
   >
     {txt}
   </motion.button>
