@@ -18,6 +18,7 @@ export default function FeaturedProducts() {
         </button>
       </article>
       <Swiper
+        style={{ direction: "rtl" }}
         spaceBetween={30}
         breakpoints={{
           640: {
@@ -30,6 +31,7 @@ export default function FeaturedProducts() {
             slidesPerView: 3,
           },
         }}
+        role="list"
         pagination={{
           clickable: true,
         }}
@@ -37,7 +39,7 @@ export default function FeaturedProducts() {
         className="py-[1rem] mySwiper"
       >
         {featuredProducts.map((e, i) => (
-          <SwiperSlide key={i}>
+          <SwiperSlide role="listitem" key={i}>
             <MyCard {...e} />
           </SwiperSlide>
         ))}
@@ -46,17 +48,9 @@ export default function FeaturedProducts() {
   );
 }
 
-{
-  /* <ul role="list" className="grid grid-cols-3  gap-y-[2rem] gap-x-[1rem]">
-{featuredProducts.map((e, i) => (
-  <MyCard key={i} {...e} />
-  ))}
-</ul> */
-}
-
 const MyCard = ({ img, name, price }: featuredProducts_t) => (
   <motion.li
-    whileHover={{ scale: 1.1 }}
+    whileHover={{ scale: 1.05 }}
     role="listitem"
     className="w-[16rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor-pointer"
   >

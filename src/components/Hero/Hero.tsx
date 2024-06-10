@@ -4,16 +4,16 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="cc px-[1rem] grid grid-cols-2  gap-x-[1rem]">
-      <article className="space-y-[2rem]">
-        <h1 className="text-[3rem] font-bold leading-[3.2rem]">
+    <section className="cc  max-lg:max-w-[35rem] max-sm:w-full max-lg:flex-col-reverse px-[1rem] flex justify-between  gap-[1rem] ">
+      <article className="max-md:px-[1rem] space-y-[2rem] lg:w-[50%] max-lg:text-center">
+        <h1 className="text-[3rem] font-bold leading-[3.2rem] max-lg:text-[1.8rem]">
           Discover the Perfect Piece
         </h1>
         <p>
           Explore out curated collection of high-quality , stylish products that
           will elevate your everyday life.
         </p>
-        <ul role="list" className="space-x-[2rem]">
+        <ul role="list" className="flex gap-x-[2rem] max-lg:justify-between">
           <MyBtn txt="Shop Now" color="bg-slate-900 text-white" />
           <MyBtn txt="Learn More" color="border-black border" />
         </ul>
