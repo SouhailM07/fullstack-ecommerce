@@ -5,3 +5,4 @@ export { default as Categories } from "./Categories/Categories";
 export { default as FeaturedProducts } from "./FeaturedProducts/FeaturedProducts";
 export { default as Footer } from "./Footer/Footer";
 export { default as MyLogin } from "./MyLogin/MyLogin";
+export { default as ShoppingList } from "./ShoppingList/ShoppingList";
