@@ -1,36 +1,59 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./navbar.css";
+import { UserButton, useAuth, useUser } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+// assets
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
   faSearch,
   faStore,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { UserButton, useAuth, useUser } from "@clerk/clerk-react";
-import { Link } from "react-router-dom";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import shoppingListStore from "@/zustand/shopping_list.store";
 
 export default function Navbar() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
-  // console.log(user?.id);
+  let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
+  // ! handlers
+  const getUserShoppingList = async (id: string) => {
+    try {
+      const res = await axios.get(`http://localhost:3007/users/${id}`);
+      editShoppingList(res.data.shoppingList);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  // ? side effects on component mount
+  useEffect(() => {
+    if (user) {
+      getUserShoppingList(user.id);
+      console.log("check render from navbar");
+    }
+  }, [user]);
+
   return (
-    <header className="py-[0.7rem] max-sm:px-[1rem] px-[2rem] max-w-[80rem] mx-auto">
+    <header className="sticky top-0 bg-white z-[99] py-[0.7rem] max-sm:px-[1rem] px-[2rem] max-w-[80rem] mx-auto">
       <nav className="flex justify-between items-center gap-x-[1rem]">
         <h1 className="flex md:min-w-[9rem] lg:min-w-[11rem]  gap-x-[1rem] items-center ">
           <FontAwesomeIcon icon={faStore} />
-          <p className=" text-[1rem] lg:text-[1.3rem]  font-medium">
+          <span className=" text-[1rem] lg:text-[1.3rem]  font-medium">
             Online Store
-          </p>
+          </span>
         </h1>
-        <FontAwesomeIcon icon="coffee" />
         <SearchBar />
         <ul role="list" className="flex gap-x-[1rem] max-sm:gap-x-[0.4rem]">
           <button title="search" role="listitem" className="md:hidden navBtn">
             <FontAwesomeIcon icon={faSearch} />
           </button>
-          <button title="cart" role="listitem" className="navBtn">
-            <FontAwesomeIcon icon={faCartShopping} />
-          </button>
+          <SHOPPING_LIST_UI shoppingList={shoppingList} />
           <button title="profile" role="listitem" className="navBtn">
             {isSignedIn ? (
               <UserButton />
@@ -57,3 +80,4 @@ const SearchBar = () => {
     </div>
   );
 };
+

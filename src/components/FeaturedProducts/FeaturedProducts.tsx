@@ -1,5 +1,4 @@
 import "./featuredproducts.css";
-import { featuredProducts } from "@/data";
 import { featuredProducts_t } from "@/types";
 import { motion } from "framer-motion";
 //
@@ -7,8 +6,31 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import { useUser } from "@clerk/clerk-react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import shoppingListStore from "@/zustand/shopping_list.store";
 
 export default function FeaturedProducts() {
+  let [products, setProducts] = useState<any>([]);
+  const { user } = useUser();
+
+  let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
+  //
+  const getUserShoppingList = async () => {
+    try {
+      const res = await axios.get(`http://localhost:3007/users/${user?.id}`);
+      editShoppingList(res.data.shoppingList);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    axios
+      .get("http://localhost:3007/products")
+      .then(({ data }) => setProducts(data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <section className="cc  space-y-[2rem]">
       <article className="flex px-[1rem] justify-between items-center">
@@ -38,9 +60,13 @@ export default function FeaturedProducts() {
         modules={[Pagination]}
         className="py-[1rem] mySwiper"
       >
-        {featuredProducts.map((e, i) => (
+        {products.map((e, i) => (
           <SwiperSlide role="listitem" key={i}>
-            <MyCard {...e} />
+            <MyCard
+              {...e}
+              getUserShoppingList={getUserShoppingList}
+              shoppingList={shoppingList}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -48,22 +74,57 @@ export default function FeaturedProducts() {
   );
 }
 
-const MyCard = ({ img, name, price }: featuredProducts_t) => (
-  <motion.li
-    whileHover={{ scale: 1.05 }}
-    role="listitem"
-    className="w-[16rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor-pointer"
-  >
-    <img src={img} alt="product img" />
-    <div className="p-[1rem] space-y-[0.8rem] h-full  flex flex-col justify-between">
-      <p className="text-[1.1rem] font-medium">{name}</p>
+const MyCard = ({
+  img,
+  name,
+  price,
+  _id,
+  shoppingList,
+  getUserShoppingList,
+}) => {
+  const { user } = useUser();
 
-      <div className="flex justify-between items-center">
-        <p className="font-bold text-[1.1rem]">${price}</p>
-        <button className="bg-slate-900 text-white rounded-md p-3">
-          Add to Cart
-        </button>
+  const addProductToShoppingList = () => {
+    axios
+      .put(`http://localhost:3007/users/edit/${user?.id}`, {
+        clerkId: user?.id,
+        shoppingList: [...shoppingList, _id],
+      })
+      .then(getUserShoppingList);
+  };
+  const handleClick = () => {
+    if (user) {
+      axios
+        .post("http://localhost:3007/users/create", {
+          clerkId: user.id,
+          shoppingList: [],
+        })
+        .then(addProductToShoppingList)
+        .catch((err) => console.log(err));
+    } else {
+      console.log("user is not signed in");
+    }
+  };
+  return (
+    <motion.li
+      whileHover={{ scale: 1.05 }}
+      role="listitem"
+      className="w-[16rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor-pointer"
+    >
+      <img src={img} alt="product img" />
+      <div className="p-[1rem] space-y-[0.8rem] h-full  flex flex-col justify-between">
+        <p className="text-[1.1rem] font-medium">{name}</p>
+
+        <div className="flex justify-between items-center">
+          <p className="font-bold text-[1.1rem]">${price}</p>
+          <button
+            onClick={handleClick}
+            className="bg-slate-900 text-white rounded-md p-3"
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
-    </div>
-  </motion.li>
-);
+    </motion.li>
+  );
+};

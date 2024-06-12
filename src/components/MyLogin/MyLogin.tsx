@@ -1,5 +1,5 @@
 import "./mylogin.css";
-
+import { motion } from "framer-motion";
 import { useSignIn } from "@clerk/clerk-react";
 
 export default function MyLogin() {
@@ -7,7 +7,6 @@ export default function MyLogin() {
   // ! handlers
   const onSignInSuccess = () => {
     console.log("Sign-in successful!");
-    // Your code here, for example, redirect to another page or update state
   };
   const signInWithGoogle = () =>
     signIn
@@ -44,16 +43,19 @@ export default function MyLogin() {
   return (
     <main>
       <h1 className="text-[2rem] font-bold text-center my-[3rem]">Sign In</h1>
-      <ul className="flex-col flex items-center gap-y-[1.5rem] w-full ">
+      <ul
+        role="list"
+        className="flex-col flex items-center gap-y-[1.5rem] w-full "
+      >
         {links.map((e, i) => (
-          <li key={i}>
+          <motion.li whileHover={{ scale: 1.1 }} role="listitem" key={i}>
             <button
               onClick={e.method}
               className="border-2 font-medium border-black w-[17rem] h-[3rem] rounded-full"
             >
               {e.label}
             </button>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </main>

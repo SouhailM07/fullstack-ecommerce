@@ -3,4 +3,5 @@ export interface featuredProducts_t {
   name: string;
   price: number;
   description: string;
+  _id?: string;
 }
