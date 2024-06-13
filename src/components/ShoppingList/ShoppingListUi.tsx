@@ -11,10 +11,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import shoppingListStore from "@/zustand/shopping_list.store";
+import loadingStore from "@/zustand/loading.store";
 
 export default function ShoppingListUi() {
   const [products, setProducts] = useState<any[]>([]);
   const { user } = useUser();
+  const { editLoading } = loadingStore((state) => state);
+
   let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
   // ! handlers
   const getUserShoppingList = async () => {
@@ -26,24 +29,30 @@ export default function ShoppingListUi() {
     }
   };
   const addProductToShoppingList = (productId) => {
+    editLoading(true);
     axios
       .put(`http://localhost:3007/users/edit/${user?.id}`, {
         clerkId: user?.id,
         shoppingList: [...shoppingList, productId],
       })
-      .then(getUserShoppingList);
+      .then(getUserShoppingList)
+      .catch((err) => console.log(err))
+      .finally(() => editLoading(false));
   };
   const removeProductFromShoppingList = (productId) => {
     let DELETE_ITEM_INDEX = shoppingList.lastIndexOf(productId);
     let NEW_SHOPPING_LIST = shoppingList.filter(
       (_, i) => i !== DELETE_ITEM_INDEX
     );
+    editLoading(true);
     axios
       .put(`http://localhost:3007/users/edit/${user?.id}`, {
         clerkId: user?.id,
         shoppingList: [...NEW_SHOPPING_LIST],
       })
-      .then(getUserShoppingList);
+      .then(getUserShoppingList)
+      .catch((err) => console.log(err))
+      .finally(() => editLoading(false));
   };
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import "./featuredproducts.css";
-import { motion } from "framer-motion";
 //
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -9,6 +8,8 @@ import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import shoppingListStore from "@/zustand/shopping_list.store";
+import loadingStore from "@/zustand/loading.store";
+
 import { Link } from "react-router-dom";
 
 export default function FeaturedProducts() {
@@ -89,14 +90,17 @@ const MyCard = ({
   getUserShoppingList,
 }) => {
   const { user } = useUser();
-
+  const { editLoading } = loadingStore((state) => state);
   const addProductToShoppingList = () => {
+    editLoading(true);
     axios
       .put(`http://localhost:3007/users/edit/${user?.id}`, {
         clerkId: user?.id,
         shoppingList: [...shoppingList, _id],
       })
-      .then(getUserShoppingList);
+      .then(getUserShoppingList)
+      .catch((err) => console.log(err))
+      .finally(() => editLoading(false));
   };
   const handleClick = () => {
     if (user) {
@@ -112,8 +116,8 @@ const MyCard = ({
     }
   };
   return (
-    <motion.li
-      whileHover={{ scale: 1.05 }}
+    <li
+      // whileHover={{ scale: 1.05 }}
       role="listitem"
       className="select-none w-[17rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor-pointer"
     >
@@ -140,6 +144,6 @@ const MyCard = ({
           </button>
         </div>
       </div>
-    </motion.li>
+    </li>
   );
 };

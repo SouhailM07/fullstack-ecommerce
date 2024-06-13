@@ -7,5 +7,4 @@ export { default as Footer } from "./Footer/Footer";
 export { default as MyLogin } from "./MyLogin/MyLogin";
 export { default as ShoppingListUi } from "./ShoppingList/ShoppingListUi";
 export { default as MyButton } from "./MyButton/MyButton";
-export { default as BillPage } from "./BillPage/BillPage";
 export { default as Loading } from "./Loading/Loading";

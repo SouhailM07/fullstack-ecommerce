@@ -13,6 +13,14 @@ html {
   @apply max-w-[80rem] mx-auto;
 }
 
+.gridCenter {
+  @apply grid place-items-center;
+}
+
+.flexBetween {
+  @apply flex justify-between items-center;
+}
+
 .b {
   @apply border-2 border-green-500;
 }
