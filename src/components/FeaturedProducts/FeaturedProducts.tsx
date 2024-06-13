@@ -60,15 +60,21 @@ export default function FeaturedProducts() {
         modules={[Pagination]}
         className="py-[1rem] mySwiper"
       >
-        {products.map((e, i) => (
-          <SwiperSlide role="listitem" key={i}>
-            <MyCard
-              {...e}
-              getUserShoppingList={getUserShoppingList}
-              shoppingList={shoppingList}
-            />
-          </SwiperSlide>
-        ))}
+        {products.length == 0 ? (
+          <div className=" grid place-items-center">
+            <div className="border-[0.7rem] animate-spin border-transparent border-t-indigo-500 h-[7rem] aspect-square rounded-full"></div>
+          </div>
+        ) : (
+          products.map((e, i) => (
+            <SwiperSlide role="listitem" key={i}>
+              <MyCard
+                {...e}
+                getUserShoppingList={getUserShoppingList}
+                shoppingList={shoppingList}
+              />
+            </SwiperSlide>
+          ))
+        )}
       </Swiper>
     </section>
   );
