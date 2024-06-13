@@ -1,5 +1,4 @@
 import "./featuredproducts.css";
-import { featuredProducts_t } from "@/types";
 import { motion } from "framer-motion";
 //
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,6 +9,7 @@ import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import shoppingListStore from "@/zustand/shopping_list.store";
+import { Link } from "react-router-dom";
 
 export default function FeaturedProducts() {
   let [products, setProducts] = useState<any>([]);
@@ -109,17 +109,26 @@ const MyCard = ({
     <motion.li
       whileHover={{ scale: 1.05 }}
       role="listitem"
-      className="w-[16rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor-pointer"
+      className="select-none w-[17rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor-pointer"
     >
-      <img src={img} alt="product img" />
+      <img src={img} alt="product img" className="min-h-[10rem] w-full " />
       <div className="p-[1rem] space-y-[0.8rem] h-full  flex flex-col justify-between">
-        <p className="text-[1.1rem] font-medium">{name}</p>
-
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between">
           <p className="font-bold text-[1.1rem]">${price}</p>
+          <p className="text-[1.1rem] font-medium">{name}</p>
+        </div>
+
+        <div className="flex w-full justify-between items-center">
+          <Link
+            role="button"
+            to={`viewProduct/${_id}`}
+            className="text-[0.9rem] hover:underline"
+          >
+            View Product
+          </Link>
           <button
             onClick={handleClick}
-            className="bg-slate-900 text-white rounded-md p-3"
+            className="bg-slate-900 text-white rounded-md p-3 hover:bg-indigo-500"
           >
             Add to Cart
           </button>

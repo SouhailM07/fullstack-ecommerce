@@ -2,26 +2,17 @@ import "./navbar.css";
 import { UserButton, useAuth, useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 // assets
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCartShopping,
-  faSearch,
-  faStore,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { faSearch, faStore, faUser } from "@fortawesome/free-solid-svg-icons";
 import shoppingListStore from "@/zustand/shopping_list.store";
+import ShoppingListUi from "../ShoppingList/ShoppingListUi";
 
 export default function Navbar() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
-  let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
+  let { editShoppingList } = shoppingListStore((state) => state);
   // ! handlers
   const getUserShoppingList = async (id: string) => {
     try {
@@ -53,7 +44,7 @@ export default function Navbar() {
           <button title="search" role="listitem" className="md:hidden navBtn">
             <FontAwesomeIcon icon={faSearch} />
           </button>
-          <SHOPPING_LIST_UI shoppingList={shoppingList} />
+          <ShoppingListUi />
           <button title="profile" role="listitem" className="navBtn">
             {isSignedIn ? (
               <UserButton />
@@ -80,4 +71,3 @@ const SearchBar = () => {
     </div>
   );
 };
-

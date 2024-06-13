@@ -7,7 +7,7 @@ import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<MyContainer />} />
+      <Route path="/*" element={<MyContainer />} />
       <Route path="login" element={<MyLogin />} />
       <Route
         path="/sso-callback"
