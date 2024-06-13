@@ -10,6 +10,7 @@ import {
   Loading,
 } from "@/components";
 import ViewProduct from "@/pages/ViewProduct/ViewProduct";
+import SearchResultsPage from "@/pages/SearchResultsPage/SearchResultsPage";
 
 export default function MyContainer() {
   return (
@@ -31,6 +32,7 @@ export default function MyContainer() {
           }
         />
         <Route path="viewProduct/:id" element={<ViewProduct />} />
+        <Route path="searchResults/:search" element={<SearchResultsPage />} />
       </Routes>
     </>
   );

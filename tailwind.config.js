@@ -19,7 +19,7 @@ module.exports = {
     extend: {
       colors: {
         // custom
-        primaryColor: "#Of172A",
+        primaryColor: "#0f172A",
         secondaryColor: "rgb(99 102 241) ",
         // shadcn-ui
         border: "hsl(var(--border))",

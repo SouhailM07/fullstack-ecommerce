@@ -1,0 +1,3 @@
+#searchResults {
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+}
