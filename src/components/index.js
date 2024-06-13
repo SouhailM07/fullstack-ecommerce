@@ -9,3 +9,4 @@ export { default as ShoppingListUi } from "./ShoppingList/ShoppingListUi";
 export { default as MyButton } from "./MyButton/MyButton";
 export { default as Loading } from "./Loading/Loading";
 export { default as MyCard } from "./MyCard/MyCard";
+export { default as ConfirmBuy } from "./ConfirmBuy/ConfirmBuy";
