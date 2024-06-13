@@ -1,5 +1,5 @@
 import "./hero.css";
-
+import hero_img from "/simon-daoudi-2wFoa040m8g-unsplash.jpg";
 import { motion } from "framer-motion";
 
 export default function Hero() {
@@ -18,11 +18,12 @@ export default function Hero() {
           <MyBtn txt="Learn More" color="border-black border" />
         </ul>
       </article>
-      <article>
+      <article className="w-[50%] ">
         <img
-          src="https://placehold.co/600x400/png"
+          // src="https://placehold.co/600x400/png"
+          src={hero_img}
           alt="img"
-          className="w-full"
+          className="w-full rounded-lg"
         />
       </article>
     </section>

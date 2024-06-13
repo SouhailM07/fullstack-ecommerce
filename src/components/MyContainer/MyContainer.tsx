@@ -11,6 +11,7 @@ import {
 } from "@/components";
 import ViewProduct from "@/pages/ViewProduct/ViewProduct";
 import SearchResultsPage from "@/pages/SearchResultsPage/SearchResultsPage";
+import BillPage from "@/pages/BillPage/BillPage";
 
 export default function MyContainer() {
   return (
@@ -33,6 +34,7 @@ export default function MyContainer() {
         />
         <Route path="viewProduct/:id" element={<ViewProduct />} />
         <Route path="searchResults/:search" element={<SearchResultsPage />} />
+        <Route path="billPage/" element={<BillPage />} />
       </Routes>
     </>
   );

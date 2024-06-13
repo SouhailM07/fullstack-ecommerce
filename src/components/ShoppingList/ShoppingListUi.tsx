@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/popover";
 import shoppingListStore from "@/zustand/shopping_list.store";
 import loadingStore from "@/zustand/loading.store";
+import { Link } from "react-router-dom";
 
 export default function ShoppingListUi() {
   const [products, setProducts] = useState<any[]>([]);
@@ -114,9 +115,15 @@ export default function ShoppingListUi() {
                   </div>
                 </div>
               ))}
-              <motion.button className="bg-slate-900 hover:bg-slate-800 transition-all duration-200 text-white w-full p-2 rounded-md">
+              <Link
+                to="/billPage/"
+                role="button"
+                className="
+                bg-slate-900 hover:bg-slate-800 transition-all duration-200 text-white w-full p-2 block rounded-md text-center
+              "
+              >
                 View list
-              </motion.button>
+              </Link>
             </>
           ) : (
             <div className="grid place-items-center h-[4rem]">Empty</div>

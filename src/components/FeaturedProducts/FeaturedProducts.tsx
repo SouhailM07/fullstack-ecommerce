@@ -8,26 +8,26 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MyCard } from "@/components";
 import { Link } from "react-router-dom";
+import MyButton from "../MyButton/MyButton";
+import loadingStore from "@/zustand/loading.store";
 
 export default function FeaturedProducts() {
   let [products, setProducts] = useState<any[]>([]);
-
+  let { editLoading } = loadingStore((state) => state);
   useEffect(() => {
+    editLoading(true);
     axios
       .get("http://localhost:3007/products")
       .then(({ data }) => setProducts(data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => editLoading(false));
   }, []);
   return (
     <section className="cc  space-y-[2rem]">
       <article className="flex px-[1rem] justify-between items-center">
         <h1 className="text-[1.5rem] max-sm:text-[1rem]">Featured Products</h1>
-        <Link
-          to={`searchResults/test`}
-          role="button"
-          className="bg-slate-900 text-white rounded-md p-3"
-        >
-          View All
+        <Link to={`searchResults/test`} role="button">
+          <MyButton label="View All" color="bg-slate-900 text-white " />
         </Link>
       </article>
       <Swiper
