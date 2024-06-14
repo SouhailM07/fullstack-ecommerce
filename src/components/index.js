@@ -10,3 +10,4 @@ export { default as MyButton } from "./MyButton/MyButton";
 export { default as Loading } from "./Loading/Loading";
 export { default as MyCard } from "./MyCard/MyCard";
 export { default as ConfirmBuy } from "./ConfirmBuy/ConfirmBuy";
+export { default as SearchPanel } from "./SearchPanel/SearchPanel";
