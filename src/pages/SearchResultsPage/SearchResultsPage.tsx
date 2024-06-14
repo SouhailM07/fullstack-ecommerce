@@ -10,7 +10,7 @@ export default function SearchResultsPage() {
   let [products, setProducts] = useState<any[]>([]);
   useEffect(() => {
     axios
-      .get("http://localhost:3007/products/")
+      .get("https://fullstack-ecommerce-admin-panel.onrender.com/products/")
       .then(({ data }) => setProducts(data))
       .catch((err) => console.log(err));
   }, []);

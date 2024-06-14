@@ -19,7 +19,9 @@ export default function BillPage() {
   // ! handlers
   const getUserShoppingList = async () => {
     try {
-      const res = await axios.get(`http://localhost:3007/users/${user?.id}`);
+      const res = await axios.get(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
+      );
       editShoppingList(res.data.shoppingList);
     } catch (err) {
       console.error(err);
@@ -28,10 +30,13 @@ export default function BillPage() {
   const addProductToShoppingList = (productId) => {
     editLoading(true);
     axios
-      .put(`http://localhost:3007/users/edit/${user?.id}`, {
-        clerkId: user?.id,
-        shoppingList: [...shoppingList, productId],
-      })
+      .put(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
+        {
+          clerkId: user?.id,
+          shoppingList: [...shoppingList, productId],
+        }
+      )
       .then(getUserShoppingList)
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
@@ -43,10 +48,13 @@ export default function BillPage() {
     );
     editLoading(true);
     axios
-      .put(`http://localhost:3007/users/edit/${user?.id}`, {
-        clerkId: user?.id,
-        shoppingList: [...NEW_SHOPPING_LIST],
-      })
+      .put(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
+        {
+          clerkId: user?.id,
+          shoppingList: [...NEW_SHOPPING_LIST],
+        }
+      )
       .then(getUserShoppingList)
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
@@ -66,7 +74,7 @@ export default function BillPage() {
       const productDataPromises = uniqueProducts.map(async (productId) => {
         try {
           const response = await axios.get(
-            `http://localhost:3007/products/${productId}`
+            `https://fullstack-ecommerce-admin-panel.onrender.com/products/${productId}`
           );
           const productLength = shoppingList.filter(
             (id) => id === productId
@@ -87,7 +95,7 @@ export default function BillPage() {
 
   return (
     <>
-      <ConfirmBuy />
+      <ConfirmBuy products={products} />
       <main
         id="billPage"
         className="cc p-[2rem] flex justify-between flex-col "
@@ -139,11 +147,13 @@ export default function BillPage() {
             Total Bill :{" "}
             <span className="text-green-500">${getAllBills()}</span>
           </p>
-          <MyButton
-            handler={() => editConfirmBuy(true)}
-            color="bg-orange-500 w-[10rem] text-white"
-            label="$ Buy"
-          />
+          {shoppingList.length !== 0 && (
+            <MyButton
+              handler={() => editConfirmBuy(true)}
+              color="bg-orange-500 w-[10rem] text-white"
+              label="$ Buy"
+            />
+          )}
         </section>
       </main>
     </>

@@ -17,7 +17,7 @@ export default function FeaturedProducts() {
   useEffect(() => {
     editLoading(true);
     axios
-      .get("http://localhost:3007/products")
+      .get("https://fullstack-ecommerce-admin-panel.onrender.com/products")
       .then(({ data }) => setProducts(data))
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));

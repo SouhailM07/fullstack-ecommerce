@@ -9,7 +9,9 @@ export default function MyCard({ img, name, price, _id }) {
   let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
   const getUserShoppingList = async () => {
     try {
-      const res = await axios.get(`http://localhost:3007/users/${user?.id}`);
+      const res = await axios.get(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
+      );
       editShoppingList(res.data.shoppingList);
     } catch (err) {
       console.error(err);
@@ -19,10 +21,13 @@ export default function MyCard({ img, name, price, _id }) {
   const addProductToShoppingList = () => {
     editLoading(true);
     axios
-      .put(`http://localhost:3007/users/edit/${user?.id}`, {
-        clerkId: user?.id,
-        shoppingList: [...shoppingList, _id],
-      })
+      .put(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
+        {
+          clerkId: user?.id,
+          shoppingList: [...shoppingList, _id],
+        }
+      )
       .then(getUserShoppingList)
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
@@ -30,10 +35,13 @@ export default function MyCard({ img, name, price, _id }) {
   const handleClick = () => {
     if (user) {
       axios
-        .post("http://localhost:3007/users/create", {
-          clerkId: user.id,
-          shoppingList: [],
-        })
+        .post(
+          "https://fullstack-ecommerce-admin-panel.onrender.com/users/create",
+          {
+            clerkId: user.id,
+            shoppingList: [],
+          }
+        )
         .then(addProductToShoppingList)
         .catch((err) => console.log(err));
     } else {
@@ -49,7 +57,7 @@ export default function MyCard({ img, name, price, _id }) {
       <img
         src={img}
         alt="product img"
-        className="min-h-[10rem] w-full rounded-lg"
+        className="min-h-[10rem] w-full rounded-t-lg"
       />
       <div className="p-[1rem] space-y-[0.8rem] h-full  flex flex-col justify-between">
         <div className="flex justify-between">

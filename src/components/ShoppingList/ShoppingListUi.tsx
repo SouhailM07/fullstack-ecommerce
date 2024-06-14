@@ -23,7 +23,9 @@ export default function ShoppingListUi() {
   // ! handlers
   const getUserShoppingList = async () => {
     try {
-      const res = await axios.get(`http://localhost:3007/users/${user?.id}`);
+      const res = await axios.get(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
+      );
       editShoppingList(res.data.shoppingList);
     } catch (err) {
       console.error(err);
@@ -32,10 +34,13 @@ export default function ShoppingListUi() {
   const addProductToShoppingList = (productId) => {
     editLoading(true);
     axios
-      .put(`http://localhost:3007/users/edit/${user?.id}`, {
-        clerkId: user?.id,
-        shoppingList: [...shoppingList, productId],
-      })
+      .put(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
+        {
+          clerkId: user?.id,
+          shoppingList: [...shoppingList, productId],
+        }
+      )
       .then(getUserShoppingList)
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
@@ -47,10 +52,13 @@ export default function ShoppingListUi() {
     );
     editLoading(true);
     axios
-      .put(`http://localhost:3007/users/edit/${user?.id}`, {
-        clerkId: user?.id,
-        shoppingList: [...NEW_SHOPPING_LIST],
-      })
+      .put(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
+        {
+          clerkId: user?.id,
+          shoppingList: [...NEW_SHOPPING_LIST],
+        }
+      )
       .then(getUserShoppingList)
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
@@ -62,7 +70,7 @@ export default function ShoppingListUi() {
       const productDataPromises = uniqueProducts.map(async (productId) => {
         try {
           const response = await axios.get(
-            `http://localhost:3007/products/${productId}`
+            `https://fullstack-ecommerce-admin-panel.onrender.com/products/${productId}`
           );
           const productLength = shoppingList.filter(
             (id) => id === productId
@@ -130,7 +138,7 @@ export default function ShoppingListUi() {
           )}
         </PopoverContent>
         <span className="absolute translate-x-[1.2rem] text-[0.9rem] translate-y-[-1rem] font-bold">
-          {shoppingList.length}
+          {products.filter((e) => shoppingList.includes(e.info._id)).length}
         </span>
       </div>
     </Popover>

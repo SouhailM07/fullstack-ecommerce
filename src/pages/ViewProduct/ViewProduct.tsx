@@ -7,7 +7,9 @@ export default function ViewProduct() {
   let [viewProduct, setViewProduct]: any = useState({});
   useEffect(() => {
     axios
-      .get(`http://localhost:3007/products/${id}`)
+      .get(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/products/${id}`
+      )
       .then((res) => setViewProduct(res.data));
   }, []);
   return (

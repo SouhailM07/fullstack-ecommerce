@@ -16,7 +16,9 @@ export default function Navbar() {
   // ! handlers
   const getUserShoppingList = async (id: string) => {
     try {
-      const res = await axios.get(`http://localhost:3007/users/${id}`);
+      const res = await axios.get(
+        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${id}`
+      );
       editShoppingList(res.data.shoppingList);
     } catch (err) {
       console.error(err);
