@@ -18,7 +18,7 @@ export default function Hero() {
           <MyBtn txt="Learn More" color="border-black border" />
         </ul>
       </article>
-      <article className="w-[50%] ">
+      <article className="lg:w-[50%] ">
         <img
           // src="https://placehold.co/600x400/png"
           src={hero_img}

@@ -10,6 +10,7 @@ export default function Loading() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ delay: 1 }}
           className="gridCenter bg-[#00000087] fixed z-[100] h-screen w-full top-0"
         >
           <div className="h-[7rem] aspect-square animate-spin border-transparent border-t-indigo-500 border-[0.7rem] rounded-full" />

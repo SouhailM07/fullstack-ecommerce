@@ -26,7 +26,7 @@ export default function FeaturedProducts() {
     <section className="cc  space-y-[2rem]">
       <article className="flex px-[1rem] justify-between items-center">
         <h1 className="text-[1.5rem] max-sm:text-[1rem]">Featured Products</h1>
-        <Link to={`searchResults/test`} role="button">
+        <Link to={`searchResults/`} role="button">
           <MyButton label="View All" color="bg-slate-900 text-white " />
         </Link>
       </article>

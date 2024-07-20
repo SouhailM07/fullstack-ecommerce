@@ -1,7 +1,7 @@
-import loadingStore from "@/zustand/loading.store";
 import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import shoppingListStore from "@/zustand/shopping_list.store";
+import loadingStore from "@/zustand/loading.store";
 import { Link } from "react-router-dom";
 
 export default function MyCard({ img, name, price, _id }) {

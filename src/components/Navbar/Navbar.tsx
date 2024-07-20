@@ -7,12 +7,13 @@ import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faStore, faUser } from "@fortawesome/free-solid-svg-icons";
 import shoppingListStore from "@/zustand/shopping_list.store";
+import searchStore from "@/zustand/search.store";
 import ShoppingListUi from "../ShoppingList/ShoppingListUi";
-
 export default function Navbar() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
   let { editShoppingList } = shoppingListStore((state) => state);
+  let { editSearchToggle } = searchStore((state) => state);
   // ! handlers
   const getUserShoppingList = async (id: string) => {
     try {
@@ -23,6 +24,15 @@ export default function Navbar() {
     } catch (err) {
       console.error(err);
     }
+  };
+  const handleSearch = () => {
+    editSearchToggle(true);
+    setTimeout(() => {
+      let focusInput = document.querySelector(
+        "#search_input"
+      ) as HTMLInputElement;
+      focusInput.focus();
+    }, 100);
   };
   // ? side effects on component mount
   useEffect(() => {
@@ -41,9 +51,13 @@ export default function Navbar() {
             Online Store
           </span>
         </h1>
-        <SearchBar />
         <ul role="list" className="flex gap-x-[1rem] max-sm:gap-x-[0.4rem]">
-          <button title="search" role="listitem" className="md:hidden navBtn">
+          <button
+            onClick={handleSearch}
+            title="search"
+            role="listitem"
+            className=" navBtn"
+          >
             <FontAwesomeIcon icon={faSearch} />
           </button>
           <ShoppingListUi />
@@ -61,15 +75,3 @@ export default function Navbar() {
     </header>
   );
 }
-
-const SearchBar = () => {
-  return (
-    <div className="bg-gray-200 px-[1rem] rounded-md h-[2.5rem] flex items-center gap-x-[1rem] w-[35rem] max-md:hidden">
-      <FontAwesomeIcon icon={faSearch} color="gray" />
-      <input
-        placeholder="Search products..."
-        className="text-[0.9rem] bg-transparent w-full h-full outline-none"
-      />
-    </div>
-  );
-};

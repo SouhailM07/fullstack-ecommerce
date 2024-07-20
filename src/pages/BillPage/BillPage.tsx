@@ -41,6 +41,14 @@ export default function BillPage() {
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
   };
+
+  const getAllBills = (): number => {
+    return products.length
+      ? products
+          .map((e) => e.info.price * e.productLength)
+          .reduce((a, e) => a + e)
+      : 0;
+  };
   const removeProductFromShoppingList = (productId) => {
     let DELETE_ITEM_INDEX = shoppingList.lastIndexOf(productId);
     let NEW_SHOPPING_LIST = shoppingList.filter(
@@ -58,14 +66,6 @@ export default function BillPage() {
       .then(getUserShoppingList)
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
-  };
-
-  const getAllBills = (): number => {
-    return products.length
-      ? products
-          .map((e) => e.info.price * e.productLength)
-          .reduce((a, e) => a + e)
-      : 0;
   };
 
   useEffect(() => {
@@ -113,36 +113,18 @@ export default function BillPage() {
         {shoppingList.length !== 0 ? (
           <section className="space-y-[2rem] my-[2rem]">
             {products.map((e, i) => (
-              <div key={i} className="grid grid-cols-4 place-items-center">
-                <img
-                  src={e.info.img}
-                  alt="product img"
-                  className="h-[9rem] aspect-video rounded-md"
-                />
-                <span className="font-medium">{e.info.name}</span>
-                <article className="flex justify-between gap-x-[1rem] items-center ">
-                  <MyButton
-                    label="-"
-                    color="bg-red-500 text-white w-[3rem]"
-                    handler={() => removeProductFromShoppingList(e.info._id)}
-                  />
-                  <span>{e.productLength}</span>
-                  <MyButton
-                    label="+"
-                    color="bg-blue-500 text-white w-[3rem]"
-                    handler={() => addProductToShoppingList(e.info._id)}
-                  />
-                </article>
-                <div className="text-green-500 font-bold">
-                  ${e.info.price * e.productLength}
-                </div>
-              </div>
+              <ProductBillRenderItem
+                key={i}
+                e={e}
+                addProductToShoppingList={addProductToShoppingList}
+                removeProductFromShoppingList={removeProductFromShoppingList}
+              />
             ))}
           </section>
         ) : (
           <div className="grid place-items-center h-[8rem] w-full">Empty</div>
         )}
-        <section className="flexBetween">
+        <section className="flexBetween max-sm:flex-col gap-y-[1rem]">
           <p className="font-bold text-[1.2rem]">
             Total Bill :{" "}
             <span className="text-green-500">${getAllBills()}</span>
@@ -159,3 +141,36 @@ export default function BillPage() {
     </>
   );
 }
+
+const ProductBillRenderItem = ({
+  e,
+  removeProductFromShoppingList,
+  addProductToShoppingList,
+}) => {
+  return (
+    <div className="grid max-md:grid-rows-[1fr_3rem_3rem_3rem] max-md:h-[20rem]   md:grid-cols-4 place-items-center ">
+      <img
+        src={e.info.img}
+        alt="product img"
+        className=" md:w-full  aspect-video rounded-md max-md:h-[9rem]"
+      />
+      <span className="font-medium">{e.info.name}</span>
+      <article className="flex justify-between gap-x-[1rem] items-center ">
+        <MyButton
+          label="-"
+          color="bg-red-500 text-white w-[3rem]"
+          handler={() => removeProductFromShoppingList(e.info._id)}
+        />
+        <span>{e.productLength}</span>
+        <MyButton
+          label="+"
+          color="bg-blue-500 text-white w-[3rem]"
+          handler={() => addProductToShoppingList(e.info._id)}
+        />
+      </article>
+      <div className="text-green-500 font-bold">
+        ${e.info.price * e.productLength}
+      </div>
+    </div>
+  );
+};

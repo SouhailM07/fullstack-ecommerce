@@ -20,7 +20,9 @@ html {
 .flexBetween {
   @apply flex justify-between items-center;
 }
-
+.no-scroll {
+  @apply overflow-clip;
+}
 .b {
   @apply border-2 border-green-500;
 }

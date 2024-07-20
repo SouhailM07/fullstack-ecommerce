@@ -8,6 +8,7 @@ import {
   FeaturedProducts,
   Footer,
   Loading,
+  SearchPanel,
 } from "@/components";
 import ViewProduct from "@/pages/ViewProduct/ViewProduct";
 import SearchResultsPage from "@/pages/SearchResultsPage/SearchResultsPage";
@@ -17,6 +18,7 @@ export default function MyContainer() {
   return (
     <>
       <Navbar />
+      <SearchPanel />
       <Loading />
       <Routes>
         <Route
@@ -33,7 +35,7 @@ export default function MyContainer() {
           }
         />
         <Route path="viewProduct/:id" element={<ViewProduct />} />
-        <Route path="searchResults/:search" element={<SearchResultsPage />} />
+        <Route path="searchResults/" element={<SearchResultsPage />} />
         <Route path="billPage/" element={<BillPage />} />
       </Routes>
     </>

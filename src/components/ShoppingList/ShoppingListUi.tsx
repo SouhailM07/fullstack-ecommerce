@@ -97,7 +97,7 @@ export default function ShoppingListUi() {
         </PopoverTrigger>
         <PopoverContent
           role="list"
-          className="translate-y-[1rem] translate-x-[-2rem] space-y-[1rem]"
+          className="translate-y-[1rem]  sm:translate-x-[-2rem] space-y-[1rem]"
         >
           {shoppingList.length !== 0 ? (
             <>
@@ -138,7 +138,7 @@ export default function ShoppingListUi() {
           )}
         </PopoverContent>
         <span className="absolute translate-x-[1.2rem] text-[0.9rem] translate-y-[-1rem] font-bold">
-          {products.filter((e) => shoppingList.includes(e.info._id)).length}
+          {shoppingList.filter((e) => e !== null).length}
         </span>
       </div>
     </Popover>
