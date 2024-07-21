@@ -1,4 +1,4 @@
-import MyButton from "../MyButton/MyButton";
+import MyButton from "@/components/REUSABLE/MyButton/MyButton";
 import confirmBuyStore from "@/zustand/confirm_buy.store";
 import { useUser } from "@clerk/clerk-react";
 import axios from "axios";

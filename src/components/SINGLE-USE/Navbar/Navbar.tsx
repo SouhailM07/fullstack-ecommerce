@@ -9,6 +9,7 @@ import { faSearch, faStore, faUser } from "@fortawesome/free-solid-svg-icons";
 import shoppingListStore from "@/zustand/shopping_list.store";
 import searchStore from "@/zustand/search.store";
 import ShoppingListUi from "../ShoppingList/ShoppingListUi";
+
 export default function Navbar() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
@@ -52,20 +53,22 @@ export default function Navbar() {
           </span>
         </h1>
         <ul role="list" className="flex gap-x-[1rem] max-sm:gap-x-[0.4rem]">
-          <button
-            onClick={handleSearch}
-            title="search"
-            role="listitem"
-            className=" navBtn"
-          >
-            <FontAwesomeIcon icon={faSearch} />
-          </button>
+          <li role="listitem">
+            <button
+              onClick={handleSearch}
+              title="search"
+              aria-label="search btn"
+              className=" navBtn"
+            >
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
+          </li>
           <ShoppingListUi />
           <button title="profile" role="listitem" className="navBtn">
             {isSignedIn ? (
               <UserButton />
             ) : (
-              <Link to="login">
+              <Link to="login" aria-label="sign up btn">
                 <FontAwesomeIcon icon={faUser} />
               </Link>
             )}

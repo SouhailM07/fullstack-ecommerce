@@ -2,7 +2,10 @@ import "./styles.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MyCard, MyButton } from "@/components";
+// import { MyCard, MyButton } from "@/components";
+import MyCard from "@/components/REUSABLE/MyCard/MyCard";
+import MyButton from "@/components/REUSABLE/MyButton/MyButton";
+
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import searchStore from "@/zustand/search.store";
 

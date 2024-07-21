@@ -1,4 +1,4 @@
-import MyButton from "@/components/MyButton/MyButton";
+import MyButton from "@/components/REUSABLE/MyButton/MyButton";
 import { useUser } from "@clerk/clerk-react";
 import {
   faArrowRight,

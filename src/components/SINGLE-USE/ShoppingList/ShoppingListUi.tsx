@@ -92,7 +92,10 @@ export default function ShoppingListUi() {
   return (
     <Popover>
       <div title="cart" role="listitem" className="navBtn">
-        <PopoverTrigger className="h-full w-full">
+        <PopoverTrigger
+          aria-label="shopping list btn"
+          className="h-full w-full"
+        >
           <FontAwesomeIcon icon={faCartShopping} />
         </PopoverTrigger>
         <PopoverContent

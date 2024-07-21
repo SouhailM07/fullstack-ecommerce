@@ -51,20 +51,19 @@ export default function MyCard({ img, name, price, _id }) {
   return (
     <li
       // whileHover={{ scale: 1.05 }}
-      role="listitem"
-      className="select-none shadow-lg w-[17rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor-pointer"
+      className="select-none   shadow-lg w-[17rem] flex flex-col min-h-[20rem]  border-2 rounded-lg mx-auto cursor- justify-between pointer"
     >
       <img
+        loading="lazy"
         src={img}
         alt="product img"
-        className="min-h-[10rem] w-full rounded-t-lg"
+        className="w-full rounded-t-lg aspect-video"
       />
-      <div className="p-[1rem] space-y-[0.8rem] h-full  flex flex-col justify-between">
+      <div className="p-[1rem] space-y-[1.5rem] h-full  flex flex-col justify-between">
         <div className="flex justify-between">
           <p className="font-bold text-[1.1rem]">${price}</p>
           <p className="text-[1.1rem] font-medium">{name}</p>
         </div>
-
         <div className="flex w-full justify-between items-center">
           <Link
             role="button"

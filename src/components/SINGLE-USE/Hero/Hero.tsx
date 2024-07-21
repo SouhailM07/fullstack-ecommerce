@@ -20,6 +20,9 @@ export default function Hero() {
       </article>
       <article className="lg:w-[50%] ">
         <img
+          // @ts-ignore
+          fetchpriority="high"
+          loading="eager"
           // src="https://placehold.co/600x400/png"
           src={hero_img}
           alt="img"
