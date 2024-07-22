@@ -1,29 +1,25 @@
 import MyButton from "@/components/REUSABLE/MyButton/MyButton";
-import confirmBuyStore from "@/zustand/confirm_buy.store";
 import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
-import { AnimatePresence, motion } from "framer-motion";
-import shoppingListStore from "@/zustand/shopping_list.store";
 import loadingStore from "@/zustand/loading.store";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { useShoppingListContext } from "@/context/ShoppingListContext";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function ConfirmBuy({ products }) {
-  let { editConfirmBuy, confirmBuy } = confirmBuyStore();
-  let { editShoppingList } = shoppingListStore((state) => state);
   const { editLoading } = loadingStore((state) => state);
-
+  const { toast } = useToast();
   const { user } = useUser();
-  const getUserShoppingList = async () => {
-    try {
-      const res = await axios.get(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
-      );
-      editShoppingList(res.data.shoppingList);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { getUserShoppingList } = useShoppingListContext();
   const handleBuy = () => {
-    editConfirmBuy(false);
     editLoading(true);
     axios
       .post(
@@ -43,39 +39,41 @@ export default function ConfirmBuy({ products }) {
         )
       )
       .then(getUserShoppingList)
+      .then(() =>
+        toast({
+          title: "Bill Confirmed",
+          description: "Thank you for buying from Online store . ",
+          duration: 2000,
+        })
+      )
       .catch((err) => console.log(err))
       .finally(() => editLoading(false));
   };
   return (
-    <AnimatePresence>
-      {confirmBuy && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed top-0 h-screen w-full bg-[#00000087] z-[100] gridCenter"
-        >
-          <div className="bg-white w-[25rem]  p-[1rem] rounded-lg space-y-[1rem]">
-            <h1 className="text-[2rem] text-red-500 font-bold">Warning!</h1>
-            <p>
-              You are about to finish the buy process , are you sure about that
-              ?
-            </p>
-            <div className="flexBetween">
-              <MyButton
-                label="Cancel"
-                color="text-white bg-red-500"
-                handler={() => editConfirmBuy(false)}
-              />
-              <MyButton
-                handler={handleBuy}
-                label="Buy"
-                color="text-white bg-green-500"
-              />
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <Dialog>
+      <DialogTrigger>
+        <MyButton color="bg-orange-500 w-[10rem] text-white" label="$ Buy" />
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Warning ?</DialogTitle>
+          <DialogDescription>
+            You are about to finish the buy process , are you sure about that ?
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flexBetween">
+          <DialogClose>
+            <MyButton label="Cancel" color="text-white bg-red-500" />
+          </DialogClose>
+          <DialogClose>
+            <MyButton
+              handler={handleBuy}
+              label="Buy"
+              color="text-white bg-green-500"
+            />
+          </DialogClose>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

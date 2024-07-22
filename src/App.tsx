@@ -3,8 +3,6 @@ import "./App.css";
 import MyLogin from "./components/SINGLE-USE/MyLogin/MyLogin.js";
 import { Routes, Route } from "react-router-dom";
 import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
-import { useEffect } from "react";
-import loadingStore from "./zustand/loading.store.js";
 import Navbar from "./components/SINGLE-USE/Navbar/Navbar.js";
 import SearchPanel from "./components/SINGLE-USE/SearchPanel/SearchPanel.js";
 import Loading from "./components/SINGLE-USE/Loading/Loading.js";
@@ -14,12 +12,6 @@ import SearchResultsPage from "./components/SINGLE-USE/SearchResultsPage/SearchR
 import BillPage from "./components/SINGLE-USE/BillPage/BillPage.js";
 
 function App() {
-  const { loading } = loadingStore((state) => state);
-  const body = document.body as HTMLBodyElement;
-
-  useEffect(() => {
-    body.className = loading ? "overflow-hidden" : "overflow-visible";
-  }, [loading]);
   return (
     <>
       <Navbar />

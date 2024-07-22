@@ -7,55 +7,38 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import shoppingListStore from "@/zustand/shopping_list.store";
-import loadingStore from "@/zustand/loading.store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useToast } from "@/components/ui/use-toast";
+import { useShoppingListContext } from "@/context/ShoppingListContext";
 
 export default function ViewProduct() {
   const { id } = useParams();
   const { user } = useUser();
+  const { toast } = useToast();
   let [viewProduct, setViewProduct]: any = useState({});
+  const { addProductToShoppingList } = useShoppingListContext();
   // ! handlers
-  let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
-  const getUserShoppingList = async () => {
+
+  const handleClick = async (_id) => {
     try {
-      const res = await axios.get(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
-      );
-      editShoppingList(res.data.shoppingList);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  const { editLoading } = loadingStore((state) => state);
-  const addProductToShoppingList = () => {
-    editLoading(true);
-    axios
-      .put(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
-        {
-          clerkId: user?.id,
-          shoppingList: [...shoppingList, viewProduct?._id],
-        }
-      )
-      .then(getUserShoppingList)
-      .catch((err) => console.log(err))
-      .finally(() => editLoading(false));
-  };
-  const handleClick = () => {
-    if (user) {
-      axios
-        .post(
+      if (user) {
+        await axios.post(
           "https://fullstack-ecommerce-admin-panel.onrender.com/users/create",
           {
             clerkId: user.id,
             shoppingList: [],
           }
-        )
-        .then(addProductToShoppingList)
-        .catch((err) => console.log(err));
-    } else {
-      console.log("user is not signed in");
+        );
+        await addProductToShoppingList(_id);
+      } else {
+        toast({
+          variant: "destructive",
+          description: "User is not signed in !",
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -100,7 +83,7 @@ export default function ViewProduct() {
             <p>{viewProduct?.description}</p>
           </div>
           <button
-            onClick={handleClick}
+            onClick={() => handleClick(viewProduct?._id)}
             className="p-3 w-full rounded-lg space-x-[1rem] bg-slate-900 text-white  hover:bg-slate-700"
           >
             <FontAwesomeIcon icon={faShoppingCart} />

@@ -44,7 +44,7 @@ export default function Navbar() {
   }, [user]);
 
   return (
-    <header className="sticky top-0 bg-white z-[99] py-[0.7rem] max-sm:px-[1rem] px-[2rem] max-w-[80rem] mx-auto">
+    <header className="sticky top-0 bg-white z-[20] py-[0.7rem] max-sm:px-[1rem] px-[2rem] max-w-[80rem] mx-auto">
       <nav className="flex justify-between items-center gap-x-[1rem]">
         <h1 className="flex md:min-w-[9rem] lg:min-w-[11rem]  gap-x-[1rem] items-center ">
           <FontAwesomeIcon icon={faStore} />

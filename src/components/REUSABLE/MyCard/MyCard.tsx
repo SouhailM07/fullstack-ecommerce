@@ -1,37 +1,13 @@
 import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
-import shoppingListStore from "@/zustand/shopping_list.store";
-import loadingStore from "@/zustand/loading.store";
 import { Link } from "react-router-dom";
+import { useShoppingListContext } from "@/context/ShoppingListContext";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function MyCard({ img, name, price, _id }) {
   const { user } = useUser();
-  let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
-  const getUserShoppingList = async () => {
-    try {
-      const res = await axios.get(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
-      );
-      editShoppingList(res.data.shoppingList);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  const { editLoading } = loadingStore((state) => state);
-  const addProductToShoppingList = () => {
-    editLoading(true);
-    axios
-      .put(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
-        {
-          clerkId: user?.id,
-          shoppingList: [...shoppingList, _id],
-        }
-      )
-      .then(getUserShoppingList)
-      .catch((err) => console.log(err))
-      .finally(() => editLoading(false));
-  };
+  const { toast } = useToast();
+  const { addProductToShoppingList } = useShoppingListContext();
   const handleClick = () => {
     if (user) {
       axios
@@ -42,10 +18,15 @@ export default function MyCard({ img, name, price, _id }) {
             shoppingList: [],
           }
         )
-        .then(addProductToShoppingList)
+        .then(() => addProductToShoppingList(_id))
         .catch((err) => console.log(err));
     } else {
-      console.log("user is not signed in");
+      toast({
+        variant: "destructive",
+        description: "User is not signed in !",
+        duration: 2000,
+      });
+      // console.log("user is not signed in");
     }
   };
   return (

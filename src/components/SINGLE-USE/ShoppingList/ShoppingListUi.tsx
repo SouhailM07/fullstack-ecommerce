@@ -1,4 +1,3 @@
-import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -11,58 +10,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import shoppingListStore from "@/zustand/shopping_list.store";
-import loadingStore from "@/zustand/loading.store";
 import { Link } from "react-router-dom";
+import { useShoppingListContext } from "@/context/ShoppingListContext";
 
 export default function ShoppingListUi() {
   const [products, setProducts] = useState<any[]>([]);
-  const { user } = useUser();
-  const { editLoading } = loadingStore((state) => state);
-
-  let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
-  // ! handlers
-  const getUserShoppingList = async () => {
-    try {
-      const res = await axios.get(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
-      );
-      editShoppingList(res.data.shoppingList);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  const addProductToShoppingList = (productId) => {
-    editLoading(true);
-    axios
-      .put(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
-        {
-          clerkId: user?.id,
-          shoppingList: [...shoppingList, productId],
-        }
-      )
-      .then(getUserShoppingList)
-      .catch((err) => console.log(err))
-      .finally(() => editLoading(false));
-  };
-  const removeProductFromShoppingList = (productId) => {
-    let DELETE_ITEM_INDEX = shoppingList.lastIndexOf(productId);
-    let NEW_SHOPPING_LIST = shoppingList.filter(
-      (_, i) => i !== DELETE_ITEM_INDEX
-    );
-    editLoading(true);
-    axios
-      .put(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
-        {
-          clerkId: user?.id,
-          shoppingList: [...NEW_SHOPPING_LIST],
-        }
-      )
-      .then(getUserShoppingList)
-      .catch((err) => console.log(err))
-      .finally(() => editLoading(false));
-  };
+  const { removeProductFromShoppingList, addProductToShoppingList } =
+    useShoppingListContext();
+  let { shoppingList } = shoppingListStore((state) => state);
 
   useEffect(() => {
     const fetchProducts = async () => {

@@ -1,47 +1,20 @@
 import "./styles.css";
-import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import shoppingListStore from "@/zustand/shopping_list.store";
-import loadingStore from "@/zustand/loading.store";
 import MyButton from "@/components/REUSABLE/MyButton/MyButton";
 import ConfirmBuy from "../ConfirmBuy/ConfirmBuy";
 import { Link } from "react-router-dom";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import confirmBuyStore from "@/zustand/confirm_buy.store";
+import { useShoppingListContext } from "@/context/ShoppingListContext";
 
 export default function BillPage() {
   const [products, setProducts] = useState<any[]>([]);
-  const { user } = useUser();
-  const { editLoading } = loadingStore((state) => state);
-  let { editConfirmBuy } = confirmBuyStore();
 
-  let { shoppingList, editShoppingList } = shoppingListStore((state) => state);
+  let { shoppingList } = shoppingListStore((state) => state);
   // ! handlers
-  const getUserShoppingList = async () => {
-    try {
-      const res = await axios.get(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/${user?.id}`
-      );
-      editShoppingList(res.data.shoppingList);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  const addProductToShoppingList = (productId) => {
-    editLoading(true);
-    axios
-      .put(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
-        {
-          clerkId: user?.id,
-          shoppingList: [...shoppingList, productId],
-        }
-      )
-      .then(getUserShoppingList)
-      .catch((err) => console.log(err))
-      .finally(() => editLoading(false));
-  };
+  const { addProductToShoppingList, removeProductFromShoppingList } =
+    useShoppingListContext();
 
   const getAllBills = (): number => {
     return products.length
@@ -49,24 +22,6 @@ export default function BillPage() {
           .map((e) => e.info.price * e.productLength)
           .reduce((a, e) => a + e)
       : 0;
-  };
-  const removeProductFromShoppingList = (productId) => {
-    let DELETE_ITEM_INDEX = shoppingList.lastIndexOf(productId);
-    let NEW_SHOPPING_LIST = shoppingList.filter(
-      (_, i) => i !== DELETE_ITEM_INDEX
-    );
-    editLoading(true);
-    axios
-      .put(
-        `https://fullstack-ecommerce-admin-panel.onrender.com/users/edit/${user?.id}`,
-        {
-          clerkId: user?.id,
-          shoppingList: [...NEW_SHOPPING_LIST],
-        }
-      )
-      .then(getUserShoppingList)
-      .catch((err) => console.log(err))
-      .finally(() => editLoading(false));
   };
 
   useEffect(() => {
@@ -96,7 +51,6 @@ export default function BillPage() {
 
   return (
     <>
-      <ConfirmBuy products={products} />
       <main
         id="billPage"
         className="cc p-[2rem] flex justify-between flex-col "
@@ -130,13 +84,7 @@ export default function BillPage() {
             Total Bill :{" "}
             <span className="text-green-500">${getAllBills()}</span>
           </p>
-          {shoppingList.length !== 0 && (
-            <MyButton
-              handler={() => editConfirmBuy(true)}
-              color="bg-orange-500 w-[10rem] text-white"
-              label="$ Buy"
-            />
-          )}
+          {shoppingList.length !== 0 && <ConfirmBuy products={products} />}
         </section>
       </main>
     </>
